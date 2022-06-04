@@ -1,10 +1,6 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-  id: {
-    type: Number,
-    default: 1,
-  },
   lastName: {
     type: String,
     required: true,
@@ -27,7 +23,7 @@ const userSchema = new mongoose.Schema({
   },
   lastVisit: {
     type: Date,
-    default: Date.now,
+    default: null,
   },
   isLocked: {
     type: Boolean,

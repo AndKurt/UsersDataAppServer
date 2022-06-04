@@ -6,7 +6,8 @@ const cors = require('cors');
 
 // import Routes
 const authRoute = require('./router/auth');
-const usersRoute = require('./router/user');
+const userRoute = require('./router/user');
+const usersRoute = require('./router/users');
 
 dotenv.config();
 
@@ -23,6 +24,7 @@ app.use(cors());
 
 // import Middlewares
 app.use('/', authRoute);
+app.use('/', userRoute);
 app.use('/', usersRoute);
 
 app.listen(PORT, () => console.log(`Server running on port: ${PORT}`));

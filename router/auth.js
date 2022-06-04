@@ -30,9 +30,17 @@ router.post('/register', async (req, res) => {
   });
 
   try {
-    //const savedUser = await user.save();s
-    //res.send(savedUser);
-    res.send({ user: user._id });
+    const savedUser = await user.save();
+    res.send({
+      id: savedUser._id,
+      login: savedUser.login,
+      email: savedUser.email,
+      firstName: savedUser.firstName,
+      lastName: savedUser.lastName,
+      isLocked: savedUser.isLocked,
+      registered: savedUser.registered,
+      lastVisit: savedUser.lastVisit,
+    });
   } catch (error) {
     res.status(400).send(error);
   }
@@ -45,9 +53,11 @@ router.post('/login', async (req, res) => {
   if (error) return res.status(400).send(error.details[0].message);
 
   //Check if the login exists
-  const user = await User.findOne({ login: req.body.login });
+  const user = await User.findOneAndUpdate(
+    { login: req.body.login },
+    { $set: { lastVisit: Date.now() } }
+  );
   if (!user) return res.status(400).send('Login is not found');
-
   //Password is correct
   const validPass = await bcryptjs.compare(req.body.password, user.password);
   if (!validPass) return res.status(400).send('Invalid password');
