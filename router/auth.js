@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const { registerValidation, loginValidation } = require('../validation');
 
 //REGISTER
+
 router.post('/register', async (req, res) => {
   //Validate date before make a user
   const { error } = registerValidation(req.body);
