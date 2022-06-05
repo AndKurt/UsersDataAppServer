@@ -63,6 +63,9 @@ router.post('/login', async (req, res) => {
   const validPass = await bcryptjs.compare(req.body.password, user.password);
   if (!validPass) return res.status(400).send('Invalid password');
 
+  //User is blocked
+  if (user.isLocked) return res.status(400).send('Access denied! User is blocked');
+
   // Create and assign token
   const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
   res.header('Authorization', token).send(token);
